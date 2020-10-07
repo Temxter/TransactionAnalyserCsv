@@ -16,3 +16,5 @@ Arguments example: <i>example.csv "20/08/2018 12:00:00" "20/08/2018 13:00:00" Kw
 Example of starting a program: <i>java -jar TransactionAnalyser-1.0.jar ../example.csv "20/08/2018 12:00:00" "20/08/2018 13:00:00" Kwik-E-Mart</i>
 
 The jar file is located in /target folder.
+
+Also you can get the jar file with Maven: <i>mvn install</i>.
