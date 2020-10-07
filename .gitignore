@@ -1,0 +1,4 @@
+.idea
+*.iml
+target
+!target/TransactionAnalyser-1.0.jar
