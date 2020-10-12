@@ -14,6 +14,9 @@ public class Transaction {
     private String idRelatedTransaction;
     private Transaction relatedTransaction;
 
+    public Transaction() {
+    }
+
     public Transaction(String id, Date date, BigDecimal amount, String merchant, TransactionType transactionType,
                        String idRelatedTransaction) {
         this.id = id;
