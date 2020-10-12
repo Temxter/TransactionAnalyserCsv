@@ -1,5 +1,6 @@
 package main;
 
+import enums.TransactionType;
 import model.Report;
 import model.Transaction;
 import parsers.TransactionCsvParser;
@@ -10,7 +11,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
@@ -41,9 +44,9 @@ public class Main {
             System.exit(0);
         }
 
-        List<Transaction> transactionList = null;
+        Map<TransactionType, Map<String, Transaction>> transactionMap = null;
         try {
-            transactionList = TransactionCsvParser.parse(filename);
+            transactionMap = TransactionCsvParser.parse(filename);
         } catch (IOException e) {
             System.err.printf("Error. File %s cannot be opened or file reading error: %s\n", filename, e.getMessage());
             System.exit(0);
@@ -54,7 +57,7 @@ public class Main {
 
         System.out.printf("File %s read successfully.\n", filename);
 
-        Report report = ReportService.getReport(transactionList, fromDate, toDate, merchant);
+        Report report = ReportService.getReport(transactionMap, fromDate, toDate, merchant);
 
         System.out.printf("Report:\n%s\n", report);
     }

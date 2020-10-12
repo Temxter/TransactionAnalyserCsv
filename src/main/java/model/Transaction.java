@@ -4,7 +4,6 @@ import enums.TransactionType;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Objects;
 
 public class Transaction {
     private String id;
@@ -13,6 +12,7 @@ public class Transaction {
     private String merchant;
     private TransactionType transactionType;
     private String idRelatedTransaction;
+    private Transaction relatedTransaction;
 
     public Transaction(String id, Date date, BigDecimal amount, String merchant, TransactionType transactionType,
                        String idRelatedTransaction) {
@@ -70,5 +70,13 @@ public class Transaction {
 
     public void setIdRelatedTransaction(String idRelatedTransaction) {
         this.idRelatedTransaction = idRelatedTransaction;
+    }
+
+    public Transaction getRelatedTransaction() {
+        return relatedTransaction;
+    }
+
+    public void setRelatedTransaction(Transaction relatedTransaction) {
+        this.relatedTransaction = relatedTransaction;
     }
 }

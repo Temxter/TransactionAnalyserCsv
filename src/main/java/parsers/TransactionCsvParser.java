@@ -11,21 +11,23 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class TransactionCsvParser {
     static private final DateFormat dateFormat = new SimpleDateFormat("DD/MM/YYYY hh:mm:ss");
 
     private TransactionCsvParser() {}
 
-    static public List<Transaction> parse(String filename) throws IOException, ParseException {
+
+
+    static public Map<TransactionType, Map<String, Transaction>> parse(String filename) throws IOException, ParseException {
         File file = new File(filename);
         FileReader fileReader = new FileReader(file);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-        List<Transaction> transactionList = new ArrayList<Transaction>();
+        Map<TransactionType, Map<String, Transaction>> transactionMap = new HashMap<>();
+        transactionMap.put(TransactionType.REVERSAL, new HashMap<>());
+        transactionMap.put(TransactionType.PAYMENT, new HashMap<>());
 
         bufferedReader.readLine(); //header of csv file
         String lineFile = bufferedReader.readLine();
@@ -43,9 +45,14 @@ public class TransactionCsvParser {
             }
             Transaction transaction = new Transaction(id, date, amount, merchant, transactionType,
                     idRelationTransaction);
-            transactionList.add(transaction);
+            transactionMap.get(transactionType).put(id, transaction);
+            if (transactionType == TransactionType.REVERSAL) {
+                Transaction oldTransaction = transactionMap.get(TransactionType.PAYMENT).get(idRelationTransaction);
+                oldTransaction.setRelatedTransaction(transaction);
+                // add oldTransaction link to transaction etc.
+            }
             lineFile = bufferedReader.readLine();
         }
-        return transactionList;
+        return transactionMap;
     }
 }
